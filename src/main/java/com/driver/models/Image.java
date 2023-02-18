@@ -9,17 +9,21 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String description;
+    private String dimensions;
 
-    private String dimension;
-
+    @ManyToOne
+    @JoinColumn
+    private Blog blog;
 
     public Image(){
-
     }
-
-
+    public Image(int id, String description, String dimensions, Blog blog) {
+        this.id = id;
+        this.description = description;
+        this.dimensions = dimensions;
+        this.blog = blog;
+    }
 
     public int getId() {
         return id;
@@ -37,21 +41,13 @@ public class Image {
         this.description = description;
     }
 
-    public String getDimension() {
-        return dimension;
+    public String getDimensions() {
+        return dimensions;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
-
-    // Mapping Image to blog (Unidirecional)
-
-
-
-    @ManyToOne
-    @JoinColumn
-    private   Blog blog;
 
     public Blog getBlog() {
         return blog;

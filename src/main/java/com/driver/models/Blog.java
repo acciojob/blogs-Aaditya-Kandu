@@ -1,5 +1,7 @@
 package com.driver.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,17 +14,30 @@ public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String title;
-
     private String content;
 
-    private Date pubdate;
+    @CreationTimestamp
+    private Date pubDate;
 
+    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
+    private List<Image> imageList = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn
+    private User user;
 
     public Blog(){
 
+    }
+
+    public Blog(int id, String title, String content, Date pubDate, List<Image> imageList, User user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.pubDate = pubDate;
+        this.imageList = imageList;
+        this.user = user;
     }
 
     public int getId() {
@@ -49,25 +64,13 @@ public class Blog {
         this.content = content;
     }
 
-    public Date getPubdate() {
-        return pubdate;
+    public Date getPubDate() {
+        return pubDate;
     }
 
-    public void setPubdate(Date pubdate) {
-        this.pubdate = pubdate;
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
-
-    // Mapping Blog to Image (Bidirection). Here blog is parent and image is child
-
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
-    private List<Image> imageList = new ArrayList<>();
-
-    // Also mapped my Blog to User where use is parent class & blog is child(Unidirection)
-
-    @ManyToOne
-    @JoinColumn
-    private User user;
-
 
     public List<Image> getImageList() {
         return imageList;

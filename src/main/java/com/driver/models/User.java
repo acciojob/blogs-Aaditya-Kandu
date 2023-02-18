@@ -11,20 +11,34 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String username;
-
     private String password;
+    private String firstName;
+    private String lastName;
 
-    private String firstname;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Blog> blogList = new ArrayList<>();
 
-    private String lastname;
 
 
-    public User(String username, String password){
-
+    public User() {
     }
 
+    public User(int id, String username, String password, String firstName, String lastName) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
+    }
 
     public int getId() {
         return id;
@@ -50,33 +64,19 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    //Here we estabilished bidirection connetion Parent class User and Child class Blog
-
-    @OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
-    private List<Blog> blogList = new ArrayList<>();
-
-
-    public List<Blog> getBlogList() {
-        return blogList;
-    }
-
-    public void setBlogList(List<Blog> blogList) {
-        this.blogList = blogList;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
